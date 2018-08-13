@@ -10,7 +10,8 @@ SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_NAME = 'mnist_model'
 MODEL_OUTPUT_DIR = os.path.join(SCRIPT_PATH, 'saved-model')
-
+old_verbosity = tf.logging.get_verbosity()
+#tf.logging.set_verbosity(tf.logging.ERROR)
 
 def export_model(model_output_dir, input_node_names, output_node_name):
     """Export the model so we can use it later.
@@ -106,7 +107,10 @@ def main():
     with tf.name_scope('loss'):
         # Use more numerically stable cross entropy.
         cross_entropy = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y),
+            tf.nn.softmax_cross_entropy_with_logits_v2(
+                labels=tf.stop_gradient(y_),
+                logits=y
+            ),
             name='cross_entropy'
         )
 

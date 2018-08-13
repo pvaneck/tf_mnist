@@ -10,6 +10,8 @@ SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_NAME = 'mnist_model'
 MODEL_OUTPUT_DIR = os.path.join(SCRIPT_PATH, 'saved-model')
+old_verbosity = tf.logging.get_verbosity()
+#tf.logging.set_verbosity(tf.logging.ERROR)
 
 def export_model(model_output_dir, input_node_names, output_node_name):
     """Export the model so we can use it later.
